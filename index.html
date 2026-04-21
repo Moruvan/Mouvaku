@@ -1,46 +1,175 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sotoriko | Head Helper</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sotoriko Panel</title>
+    <style>
+        /* Общие настройки и неоновая палитра */
+        :root {
+            --bg-color: #050b14;
+            --sidebar-color: rgba(10, 25, 47, 0.8);
+            --neon-blue: #00d2ff;
+            --neon-glow: 0 0 10px #00d2ff, 0 0 20px #3a7bd5;
+            --text-color: #e0f2f1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Боковая панель (Sidebar) */
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-color);
+            border-right: 1px solid var(--neon-blue);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 5px 0 15px rgba(0, 210, 255, 0.1);
+        }
+
+        .sidebar h2 {
+            color: var(--neon-blue);
+            text-shadow: var(--neon-glow);
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .nav-link {
+            padding: 12px;
+            text-decoration: none;
+            color: var(--text-color);
+            border: 1px solid transparent;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-blue);
+            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #0a192f 0%, #050b14 100%);
+        }
+
+        /* Карточка авторизации */
+        .auth-card {
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-card h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #1e3a5f;
+            border-radius: 5px;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+        }
+
+        .btn-neon {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .btn-neon:hover {
+            background: var(--neon-blue);
+            color: #050b14;
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Футер карточки */
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #8892b0;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="stars"></div>
-    <div class="container">
-        <header>
-            <div class="profile-header">
-                <h1>Sotoriko</h1>
-                <p class="role">Head Helper</p>
-            </div>
-        </header>
-
-        <section class="socials">
-            <a href="#" class="btn">Spotify</a>
-            <a href="#" class="btn">Discord</a>
-            <a href="#" class="btn">GitHub</a>
-        </section>
-
-        <section class="warns">
-            <h2>Лог предупреждений (Manual)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Нарушитель</th>
-                        <th>Причина</th>
-                        <th>Статус</th>
-                    </tr>
-                </thead>
-                <tbody id="warn-table">
-                    <tr>
-                        <td>User#0001</td>
-                        <td>Flood</td>
-                        <td class="status-active">Active</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+    [21.04.2026 16:58] 🖊️: <div class="sidebar">
+        <h2>SOTORIKO</h2>
+        <a href="#" class="nav-link">Главная</a>
+        <a href="#" class="nav-link">Список варнов</a>
+        <a href="#" class="nav-link">Заявки</a>
+        <a href="#" class="nav-link">Админ-панель</a>
     </div>
+
+    <div class="main-content">
+        <div class="auth-card">
+            <h3>Вход в систему</h3>
+            <div class="input-group">
+                <label>Логин</label>
+                <input type="text" placeholder="Введите никнейм">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" placeholder="****">
+            </div>
+            <button class="btn-neon">Войти</button>
+
+            <div class="auth-footer">
+                Нет аккаунта? Обратитесь к администратору.
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>
