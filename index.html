@@ -3,87 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sotoriko Panel</title>
+    <title>Sotoriko Panel | Neon Blue</title>
     <style>
-        /* Общие настройки и неоновая палитра */
+        /* Переменные стиля */
         :root {
-            --bg-color: #050b14;
-            --sidebar-color: rgba(10, 25, 47, 0.8);
+            --bg-deep: #02060c;
+            --bg-card: rgba(10, 25, 47, 0.7);
             --neon-blue: #00d2ff;
-            --neon-glow: 0 0 10px #00d2ff, 0 0 20px #3a7bd5;
-            --text-color: #e0f2f1;
+            --neon-glow: 0 0 12px rgba(0, 210, 255, 0.6);
+            --text-main: #e0f2f1;
+            --text-dim: #8892b0;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Боковая панель (Sidebar) */
+        /* --- БОКОВАЯ ПАНЕЛЬ --- */
         .sidebar {
-            width: 250px;
-            background: var(--sidebar-color);
-            border-right: 1px solid var(--neon-blue);
+            width: var(--sidebar-width);
+            background: rgba(5, 12, 22, 0.95);
+            border-right: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 30px 15px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 5px 0 15px rgba(0, 210, 255, 0.1);
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 100;
         }
 
         .sidebar h2 {
             color: var(--neon-blue);
             text-shadow: var(--neon-glow);
-            font-size: 1.5rem;
-            margin-bottom: 30px;
+            font-size: 1.6rem;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-bottom: 10px;
         }
 
         .nav-link {
-            padding: 12px;
+            display: block;
+            padding: 12px 15px;
+            color: var(--text-main);
             text-decoration: none;
-            color: var(--text-color);
-            border: 1px solid transparent;
-            margin-bottom: 10px;
+            border-radius: 6px;
             transition: 0.3s;
-            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
         }
 
         .nav-link:hover {
             border-color: var(--neon-blue);
-            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.2);
-            transform: translateX(5px);
+            background: rgba(0, 210, 255, 0.05);
+            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.1);
         }
 
-        /* Основной контент */
-        .main-content {
+        /* Выпадающее меню */
+        .dropdown-content {
+            display: none;
+            background: rgba(10, 25, 47, 0.9);
+            margin-top: 5px;
+            border-radius: 6px;
+            border-left: 2px solid var(--neon-blue);
+            padding-left: 10px;
+        }
+
+        .nav-item:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-link {
+            display: block;
+            padding: 10px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .dropdown-link:hover {
+            color: var(--neon-blue);
+        }
+
+        /* --- ОСНОВНАЯ ОБЛАСТЬ --- */
+        .main-container {
             flex-grow: 1;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #0a192f 0%, #050b14 100%);
+            background: radial-gradient(circle at center, #0a192f 0%, #02060c 100%);
         }
 
-        /* Карточка авторизации */
+        /* Карточка формы */
         .auth-card {
-            background: rgba(10, 25, 47, 0.6);
-            backdrop-filter: blur(10px);
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
             padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
         .auth-card h3 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             color: var(--neon-blue);
+            font-size: 1.4rem;
+            text-transform: uppercase;
         }
 
         .input-group {
@@ -93,80 +138,153 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
         }
-
-        .input-group input {
+         .input-group input {
             width: 100%;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #1e3a5f;
-            border-radius: 5px;
-            color: white;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 210, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
             outline: none;
-            box-sizing: border-box;
+            transition: 0.3s;
         }
 
         .input-group input:focus {
             border-color: var(--neon-blue);
-            box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
         }
 
         .btn-neon {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: transparent;
             border: 1px solid var(--neon-blue);
             color: var(--neon-blue);
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
             transition: 0.3s;
-            border-radius: 5px;
         }
 
         .btn-neon:hover {
             background: var(--neon-blue);
-            color: #050b14;
+            color: var(--bg-deep);
             box-shadow: var(--neon-glow);
         }
 
-        /* Футер карточки */
-        .auth-footer {
-            margin-top: 20px;
+        .switch-form {
             text-align: center;
+            margin-top: 20px;
             font-size: 0.8rem;
-            color: #8892b0;
+            color: var(--text-dim);
         }
+
+        .switch-form span {
+            color: var(--neon-blue);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Утилиты */
+        .hidden { display: none; }
+
     </style>
 </head>
 <body>
+
     <div class="sidebar">
         <h2>SOTORIKO</h2>
-        <a href="#" class="nav-link">Главная</a>
-        <a href="#" class="nav-link">Список варнов</a>
-        <a href="#" class="nav-link">Заявки</a>
-        <a href="#" class="nav-link">Админ-панель</a>
-    </div>
+        
+        <div class="nav-item">
+            <a class="nav-link">🏠 Главная</a>
+        </div>
 
-    <div class="main-content">
-        <div class="auth-card">
-            <h3>Вход в систему</h3>
-            <div class="input-group">
-                <label>Логин</label>
-                <input type="text" placeholder="Введите никнейм">
+        <div class="nav-item">
+            <a class="nav-link">👤 Аккаунт (Меню)</a>
+            <div class="dropdown-content">
+                <a href="#" class="dropdown-link">Мой профиль</a>
+                <a href="#" class="dropdown-link">Настройки</a>
+                <a href="#" class="dropdown-link" style="color: #ff4b2b;">Выход</a>
             </div>
-            <div class="input-group">
-                <label>Пароль</label>
-                <input type="password" placeholder="****">
-            </div>
-            <button class="btn-neon">Войти</button>
-            
-            <div class="auth-footer">
-                Нет аккаунта? Обратитесь к администратору.
+        </div>
+
+        <div class="nav-item">
+            <a class="nav-link">📊 Список варнов</a>
+        </div>
+
+        <div class="nav-item" id="admin-link">
+            <a class="nav-link">🛡️ Админ-панель</a>
+            <div class="dropdown-content">
+                <a href="#" class="dropdown-link">Заявки</a>
+                <a href="#" class="dropdown-link">Управление юзерами</a>
             </div>
         </div>
     </div>
+
+    <div class="main-container">
+        
+        <div class="auth-card" id="login-form">
+            <h3>Вход</h3>
+            <div class="input-group">
+                <label>Логин</label>
+                <input type="text" id="l-user" placeholder="Ваш никнейм">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="l-pass" placeholder="••••••••">
+            </div>
+            <button class="btn-neon" onclick="handleLogin()">Войти</button>
+            <div class="switch-form">
+                Нет доступа? <span onclick="toggleForm()">Подать заявку</span>
+            </div>
+        </div>
+
+        <div class="auth-card hidden" id="reg-form">
+            <h3>Регистрация</h3>
+            <div class="input-group">
+                <label>Логин</label>
+                <input type="text" placeholder="Придумайте ник">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" placeholder="Придумайте пароль">
+            </div>
+            <div class="input-group">
+                <label>Discord / Telegram</label>
+                <input type="text" placeholder="@username или Discord#0000">
+            </div>
+            <button class="btn-neon">Отправить заявку</button>
+            <div class="switch-form">
+                Уже есть аккаунт? <span onclick="toggleForm()">Войти</span>
+            </div>
+        </div>
+
+    </div>
+     <script>
+        // Переключение между Входом и Регистрацией
+        function toggleForm() {
+            document.getElementById('login-form').classList.toggle('hidden');
+            document.getElementById('reg-form').classList.toggle('hidden');
+        }
+
+        // Простая заглушка для входа
+        function handleLogin() {
+            const user = document.getElementById('l-user').value;
+            const pass = document.getElementById('l-pass').value;
+            
+            if(user === 'admin' && pass === '1234') {
+                alert('Добро пожаловать, админ!');
+                // Здесь можно открыть доступ к админке
+            } else {
+                alert('Неверные данные или заявка еще не одобрена.');
+            }
+        }
+    </script>
 
 </body>
 </html>
