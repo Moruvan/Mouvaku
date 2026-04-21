@@ -1,4 +1,3 @@
-// Ждем загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     
     const sidebar = document.getElementById('sidebar');
@@ -7,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userBtn = document.getElementById('user-btn');
     const accountPopup = document.getElementById('account-popup');
 
-    // 1. Открытие/Закрытие бокового меню
+    // 1. Sidebar Toggle
     const toggleMenu = () => {
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
@@ -16,37 +15,50 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggle.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
-    // 2. Всплывающее окно аккаунта
+    // 2. Account Popup
     userBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Чтобы клик не уходил на документ
+        e.stopPropagation();
         accountPopup.classList.toggle('active');
     });
 
-    // Закрываем попап при клике в любом месте экрана
     document.addEventListener('click', () => {
         accountPopup.classList.remove('active');
     });
 
-    // 3. Переключение разделов (Главная / Админка)
-    const navItems = document.querySelectorAll('.nav-item');
-    const authSection = document.getElementById('auth-section');
-    const adminSection = document.getElementById('admin-section');
+    // 3. Admin Dropdown logic
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const navDropdown = document.querySelector('.nav-dropdown');
+
+    dropdownToggle.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('active');
+        navDropdown.classList.toggle('active');
+    });
+
+    // 4. Section Switching
+    const navItems = document.querySelectorAll('.nav-item[data-section]');
+    const sections = {
+        'auth': document.getElementById('auth-section'),
+        'role-creation': document.getElementById('role-creation-section'),
+        'requests': document.getElementById('requests-section')
+    };
 
     navItems.forEach(item => {
         item.addEventListener('click', () => {
-            const section = item.getAttribute('data-section');
+            const targetId = item.getAttribute('data-section');
             
-            if (section === 'admin') {
-                authSection.classList.add('hidden');
-                adminSection.classList.remove('hidden');
-            } else if (section === 'auth') {
-                authSection.classList.remove('hidden');
-                adminSection.classList.add('hidden');
+            // Скрываем все секции
+            Object.values(sections).forEach(sec => sec.classList.add('hidden'));
+            
+            // Показываем нужную
+            if (sections[targetId]) {
+                sections[targetId].classList.remove('hidden');
             }
             
-            // После выбора раздела закрываем меню
-            if (sidebar.classList.contains('active')) toggleMenu();
+            // Закрываем меню после клика (если это не кнопка-заголовок дропдауна)
+            if (!item.classList.contains('dropdown-toggle')) {
+                if (sidebar.classList.contains('active')) toggleMenu();
+            }
         });
     });
-
 });
