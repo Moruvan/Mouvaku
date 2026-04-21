@@ -18,7 +18,15 @@
     <nav class="sidebar" id="sidebar">
         <div class="nav-links">
             <div class="nav-item" data-section="auth">🏠 Главная</div>
-            <div class="nav-item" data-section="admin">🛡️ Управление (Админка)</div>
+            
+            <div class="nav-dropdown">
+                <div class="nav-item dropdown-toggle">🛡️ Админ-панель <span class="arrow">▼</span></div>
+                <div class="dropdown-menu">
+                    <div class="nav-item sub-item" data-section="role-creation">∟ Создание ролей</div>
+                    <div class="nav-item sub-item" data-section="requests">∟ Принятие заявок</div>
+                </div>
+            </div>
+
             <div class="nav-item">📊 Активность</div>
         </div>
 
@@ -40,17 +48,6 @@
     </nav>
 
     <main>
-        <section class="stats-grid">
-            <div class="stat-card">
-                <h4>Пользователи</h4>
-                <p>1,248</p>
-            </div>
-            <div class="stat-card">
-                <h4>Активные роли</h4>
-                <p>12</p>
-            </div>
-        </section>
-
         <section class="content-section" id="auth-section">
             <h3>Авторизация</h3>
             <div class="form-group">
@@ -58,9 +55,17 @@
                 <input type="password" placeholder="Пароль">
                 <button class="btn-action">Войти</button>
             </div>
+            <div class="no-account-info">
+                Нет аккаунта? <br>
+                <span>Обратитесь к администратору:</span>
+                <div class="admin-contacts">
+                    <a href="https://t.me/your_tele" target="_blank">Telegram</a> | 
+                    <a href="#">Discord</a>
+                </div>
+            </div>
         </section>
 
-        <section class="content-section hidden" id="admin-section">
+        <section class="content-section hidden" id="role-creation-section">
             <h3 class="neon-text">Создание ролей</h3>
             <p class="sub-text">Настройка цвета и градиента</p>
             <div class="role-creator">
@@ -68,6 +73,12 @@
                 <input type="text" placeholder="Название роли">
                 <button class="btn-action">Создать роль</button>
             </div>
+        </section>
+
+        <section class="content-section hidden" id="requests-section">
+            <h3 class="neon-text">Заявки</h3>
+            <p class="sub-text">Список новых регистраций</p>
+            <div class="empty-state">Пока заявок нет...</div>
         </section>
     </main>
 
