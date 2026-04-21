@@ -21,9 +21,9 @@
             
             <div class="nav-dropdown">
                 <div class="nav-item dropdown-toggle">🛡️ Админ-панель <span class="arrow">▼</span></div>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu" id="admin-submenu">
                     <div class="nav-item sub-item" data-section="role-creation">∟ Создание ролей</div>
-                    <div class="nav-item sub-item" data-section="requests">∟ Принятие заявок</div>
+                    <div class="nav-item sub-item" data-section="requests">∟ Просмотр заявок</div>
                 </div>
             </div>
 
@@ -49,25 +49,34 @@
 
     <main>
         <section class="content-section" id="auth-section">
-            <h3>Авторизация</h3>
-            <div class="form-group">
-                <input type="text" placeholder="Никнейм">
-                <input type="password" placeholder="Пароль">
-                <button class="btn-action">Войти</button>
+            <div id="login-view">
+                <h3 class="section-title">Авторизация</h3>
+                <div class="form-group">
+                    <input type="text" placeholder="Никнейм">
+                    <input type="password" placeholder="Пароль">
+                    <button class="btn-action">Войти</button>
+                </div>
+                <div class="auth-footer">
+                    Нет аккаунта? <span class="link-neon" onclick="switchAuth('request')">Подать заявку</span>
+                </div>
             </div>
-            <div class="no-account-info">
-                Нет аккаунта? <br>
-                <span>Обратитесь к администратору:</span>
-                <div class="admin-contacts">
-                    <a href="https://t.me/your_tele" target="_blank">Telegram</a> | 
-                    <a href="#">Discord</a>
+
+            <div id="request-view" class="hidden">
+                <h3 class="section-title">Регистрация</h3>
+                <div class="form-group">
+                    <input type="text" id="reg-nick" placeholder="Ваш никнейм">
+                    <input type="password" id="reg-pass" placeholder="Придумайте пароль">
+                    <input type="text" id="reg-contact" placeholder="Discord или Telegram">
+                    <button class="btn-action" onclick="submitRequest()">Отправить данные</button>
+                </div>
+                <div class="auth-footer">
+                    Уже подавали? <span class="link-neon" onclick="switchAuth('login')">Вернуться назад</span>
                 </div>
             </div>
         </section>
 
         <section class="content-section hidden" id="role-creation-section">
-            <h3 class="neon-text">Создание ролей</h3>
-            <p class="sub-text">Настройка цвета и градиента</p>
+            <h3 class="section-title neon-text">Создание ролей</h3>
             <div class="role-creator">
                 <input type="color" id="role-color" value="#00d2ff">
                 <input type="text" placeholder="Название роли">
@@ -76,9 +85,10 @@
         </section>
 
         <section class="content-section hidden" id="requests-section">
-            <h3 class="neon-text">Заявки</h3>
-            <p class="sub-text">Список новых регистраций</p>
-            <div class="empty-state">Пока заявок нет...</div>
+            <h3 class="section-title neon-text">Активные заявки</h3>
+            <div id="requests-list">
+                <div class="empty-state">Заявок пока нет...</div>
+            </div>
         </section>
     </main>
 
