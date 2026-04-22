@@ -261,3 +261,64 @@ function loadMembers() {
         membersGrid.appendChild(card);
     });
 }
+// Поиск и фильтрация
+document.getElementById('searchInput')?.addEventListener('input', filterMembers);
+document.getElementById('roleFilter')?.addEventListener('change', filterMembers);
+
+function filterMembers() {
+    const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const roleFilter = document.getElementById('roleFilter')?.value || 'all';
+    
+    const filteredUsers = users.filter(user => {
+        const matchesSearch = user.username.toLowerCase().includes(searchTerm) || 
+                             (user.bio && user.bio.toLowerCase().includes(searchTerm));
+        const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+        
+        return matchesSearch && matchesRole;
+    });
+    
+    displayFilteredMembers(filteredUsers);
+}
+
+function displayFilteredMembers(filteredUsers) {
+    const membersGrid = document.getElementById('membersGrid');
+    membersGrid.innerHTML = '';
+    
+    if (filteredUsers.length === 0) {
+        membersGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                <h3>😕 Ничего не найдено</h3>
+                <p>Попробуйте изменить параметры поиска</p>
+            </div>
+        `;
+        return;
+    }
+    
+    filteredUsers.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        card.innerHTML = `
+            <div class="member-header">
+                <img src="${user.avatar}" alt="${user.username}" class="member-avatar">
+                <div>
+                    <div class="member-name">${user.username}</div>
+                    <div class="member-role">${user.role}</div>
+                </div>
+            </div>
+            <p class="member-bio">${user.bio || 'Нет описания'}</p>
+            <div class="member-links">
+                ${user.links ? user.links.slice(0, 3).map(link => `
+                    <a href="${link.url}" class="social-link" title="${link.title}" target="_blank" onclick="event.stopPropagation()">
+                        ${getSocialIcon(link.type)}
+                    </a>
+                `).join('') : ''}
+            </div>
+        `;
+        
+        card.addEventListener('click', () => {
+            window.location.href = `profile.html?user=${user.username}`;
+        });
+        
+        membersGrid.appendChild(card);
+    });
+}
