@@ -227,3 +227,37 @@ function logout() {
 function openSettings() {
     alert('Функция в разработке');
 }
+// Обновленная функция loadMembers с переходом на профили
+function loadMembers() {
+    const membersGrid = document.getElementById('membersGrid');
+    membersGrid.innerHTML = '';
+    
+    users.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        card.innerHTML = `
+            <div class="member-header">
+                <img src="${user.avatar}" alt="${user.username}" class="member-avatar">
+                <div>
+                    <div class="member-name">${user.username}</div>
+                    <div class="member-role">${user.role}</div>
+                </div>
+            </div>
+            <p class="member-bio">${user.bio || 'Нет описания'}</p>
+            <div class="member-links">
+                ${user.links ? user.links.slice(0, 3).map(link => `
+                    <a href="${link.url}" class="social-link" title="${link.title}" target="_blank" onclick="event.stopPropagation()">
+                        ${getSocialIcon(link.type)}
+                    </a>
+                `).join('') : ''}
+            </div>
+        `;
+        
+        // Переход на профиль при клике на карточку
+        card.addEventListener('click', () => {
+            window.location.href = `profile.html?user=${user.username}`;
+        });
+        
+        membersGrid.appendChild(card);
+    });
+}
