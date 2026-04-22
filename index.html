@@ -3,95 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sotoriko | Elite Panel</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SOTORIKO</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <div class="overlay" id="overlay"></div>
-
-    <header>
-        <div class="menu-btn" id="menu-toggle">☰</div>
-        <a href="#" class="logo">SOTORIKO</a>
-    </header>
-
-    <nav class="sidebar" id="sidebar">
-        <div class="nav-links">
-            <div class="nav-item" data-section="auth">🏠 Главная</div>
-            
-            <div class="nav-dropdown">
-                <div class="nav-item dropdown-toggle">🛡️ Админ-панель <span class="arrow">▼</span></div>
-                <div class="dropdown-menu" id="admin-submenu">
-                    <div class="nav-item sub-item" data-section="role-creation">∟ Создание ролей</div>
-                    <div class="nav-item sub-item" data-section="requests">∟ Просмотр заявок</div>
-                </div>
-            </div>
-
-            <div class="nav-item">📊 Активность</div>
+    <!-- Боковое меню -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>SOTORIKO</h2>
+            <button id="closeSidebar" class="close-btn">&times;</button>
         </div>
-
-        <div class="user-section" id="user-btn">
-            <div class="avatar"></div>
-            <div class="user-info-brief">
-                <span id="display-name">Sotoriko</span>
-                <span class="user-role-tag">DEVELOPER</span>
+        
+        <div class="sidebar-content">
+            <div class="menu-section admin-only" style="display: none;">
+                <h3>Админ-панель</h3>
+                <button class="menu-btn" onclick="openAdminPanel()">
+                    <span>👑</span> Управление пользователями
+                </button>
+                <button class="menu-btn" onclick="openRequests()">
+                    <span>📋</span> Заявки на регистрацию
+                </button>
             </div>
             
-            <div class="account-popup" id="account-popup">
-                <p class="popup-title">Профиль игрока</p>
-                <div class="popup-item">📅 Регистрация: 21.04.2026</div>
-                <div class="popup-item">⚙️ Настройки</div>
-                <hr class="separator">
-                <a href="#" class="popup-item logout">Выйти из системы</a>
+            <div class="menu-section">
+                <h3>Настройки</h3>
+                <button class="menu-btn" onclick="openDesignSettings()">
+                    <span>🎨</span> Настройка дизайна
+                </button>
+                <button class="menu-btn" onclick="openProfileSettings()">
+                    <span>⚙️</span> Настройки профиля
+                </button>
+            </div>
+            
+            <div class="menu-section">
+                <h3>Участники</h3>
+                <button class="menu-btn" onclick="openMembersList()">
+                    <span>👥</span> Список участников
+                </button>
             </div>
         </div>
-    </nav>
-
-    <main>
-        <section class="content-section" id="auth-section">
-            <div id="login-view">
-                <h3 class="section-title">Авторизация</h3>
-                <div class="form-group">
-                    <input type="text" placeholder="Никнейм">
-                    <input type="password" placeholder="Пароль">
-                    <button class="btn-action">Войти</button>
-                </div>
-                <div class="auth-footer">
-                    Нет аккаунта? <span class="link-neon" onclick="switchAuth('request')">Подать заявку</span>
-                </div>
+        
+        <!-- Профиль пользователя внизу -->
+        <div class="user-profile-widget" id="userWidget" style="display: none;">
+            <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar" id="userAvatar">
+            <div class="user-info">
+                <div class="user-name" id="userName">Username</div>
+                <div class="user-role" id="userRole">User</div>
             </div>
+        </div>
+        
+        <!-- Меню профиля -->
+        <div class="profile-menu" id="profileMenu" style="display: none;">
+            <div class="profile-menu-item">
+                <strong>Дата регистрации:</strong>
+                <span id="regDate">01.01.2024</span>
+            </div>
+            <div class="profile-menu-item">
+                <strong>Статус:</strong>
+                <span id="userStatus">Активен</span>
+            </div>
+            <button class="profile-menu-btn" onclick="openSettings()">⚙️ Настройки</button>
+            <button class="profile-menu-btn logout" onclick="logout()">🚪 Выйти</button>
+        </div>
+    </div>
 
-            <div id="request-view" class="hidden">
-                <h3 class="section-title">Регистрация</h3>
-                <div class="form-group">
-                    <input type="text" id="reg-nick" placeholder="Ваш никнейм">
-                    <input type="password" id="reg-pass" placeholder="Придумайте пароль">
-                    <input type="text" id="reg-contact" placeholder="Discord или Telegram">
-                    <button class="btn-action" onclick="submitRequest()">Отправить данные</button>
+    <!-- Кнопка открытия меню -->
+    <button id="menuToggle" class="menu-toggle" style="display: none;">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Логотип -->
+    <div class="logo">SOTORIKO</div>
+
+    <!-- Форма авторизации -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-box">
+            <h2 id="authTitle">Авторизация</h2>
+            
+            <form id="authForm">
+                <input type="text" id="username" placeholder="Никнейм" required>
+                <input type="password" id="password" placeholder="Пароль" required>
+                
+                <!-- Дополнительное поле для регистрации -->
+                <div id="registerFields" style="display: none;">
+                    <select id="socialType" required>
+                        <option value="">Выберите соц. сеть</option>
+                        <option value="discord">Discord</option>
+                        <option value="telegram">Telegram</option>
+                        <option value="vk">VK</option>
+                    </select>
+                    <input type="text" id="socialContact" placeholder="Ник/ID в соц. сети" required>
                 </div>
-                <div class="auth-footer">
-                    Уже подавали? <span class="link-neon" onclick="switchAuth('login')">Вернуться назад</span>
+                
+                <button type="submit" class="auth-btn" id="authBtn">ВОЙТИ</button>
+            </form>
+            
+            <div class="auth-footer">
+                <span id="authSwitchText">Нет аккаунта?</span>
+                <a href="#" id="authSwitch">Подать заявку</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Главная страница (после авторизации) -->
+    <div id="mainContent" class="main-content" style="display: none;">
+        <div class="container">
+            <h1>Добро пожаловать, <span id="welcomeUser"></span>!</h1>
+            
+            <!-- Список участников -->
+            <div class="members-grid" id="membersGrid">
+                <!-- Карточки участников будут добавляться через JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для настроек дизайна -->
+    <div id="designModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🎨 Настройка дизайна</h2>
+            
+            <div class="design-settings">
+                <div class="setting-group">
+                    <label>Цвет фона:</label>
+                    <input type="color" id="bgColor" value="#0a1628">
                 </div>
+                
+                <div class="setting-group">
+                    <label>Градиент:</label>
+                    <input type="color" id="gradientStart" value="#0a1628">
+                    <input type="color" id="gradientEnd" value="#1a2847">
+                    <select id="gradientDirection">
+                        <option value="to bottom">Сверху вниз</option>
+                        <option value="to right">Слева направо</option>
+                        <option value="135deg">Диагональ</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label>Цвет акцента:</label>
+                    <input type="color" id="accentColor" value="#00d4ff">
+                </div>
+                
+                <div class="setting-group">
+                    <label>Прозрачность карточек:</label>
+                    <input type="range" id="cardOpacity" min="0" max="1" step="0.1" value="0.15">
+                    <span id="opacityValue">0.15</span>
+                </div>
+                
+                <div class="setting-group">
+                    <label>Скругление углов:</label>
+                    <input type="range" id="borderRadius" min="0" max="30" value="15">
+                    <span id="radiusValue">15px</span>
+                </div>
+                
+                <button class="save-btn" onclick="saveDesign()">Сохранить</button>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section class="content-section hidden" id="role-creation-section">
-            <h3 class="section-title neon-text">Создание ролей</h3>
-            <div class="role-creator">
-                <input type="color" id="role-color" value="#00d2ff">
-                <input type="text" placeholder="Название роли">
-                <button class="btn-action">Создать роль</button>
+    <!-- Модальное окно админ-панели -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content wide">
+            <span class="close">&times;</span>
+            <h2>👑 Админ-панель</h2>
+            
+            <div class="admin-panel">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Аватар</th>
+                            <th>Никнейм</th>
+                            <th>Роль</th>
+                            <th>Статус</th>
+                            <th>Соц. сеть</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Пользователи добавляются через JS -->
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section class="content-section hidden" id="requests-section">
-            <h3 class="section-title neon-text">Активные заявки</h3>
-            <div id="requests-list">
-                <div class="empty-state">Заявок пока нет...</div>
-            </div>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/profile.js"></script>
 </body>
 </html>
