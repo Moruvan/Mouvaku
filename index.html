@@ -15,6 +15,7 @@
         </div>
         
         <div class="sidebar-content">
+            <!-- Админ-секция (видна только админам) -->
             <div class="menu-section admin-only" style="display: none;">
                 <h3>Админ-панель</h3>
                 <button class="menu-btn" onclick="openAdminPanel()">
@@ -25,6 +26,7 @@
                 </button>
             </div>
             
+            <!-- Настройки -->
             <div class="menu-section">
                 <h3>Настройки</h3>
                 <button class="menu-btn" onclick="openDesignSettings()">
@@ -35,6 +37,7 @@
                 </button>
             </div>
             
+            <!-- Участники -->
             <div class="menu-section">
                 <h3>Участники</h3>
                 <button class="menu-btn" onclick="openMembersList()">
@@ -43,38 +46,38 @@
             </div>
         </div>
         
-        <!-- Профиль пользователя внизу -->
-        <div class="user-profile-widget" id="userWidget" style="display: none;">
-            <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar" id="userAvatar">
+        <!-- Виджет профиля пользователя (внизу меню) -->
+        <div class="user-profile-widget" id="userWidget">
+            <img src="https://i.pravatar.cc/150?img=1" alt="Avatar" class="user-avatar" id="userAvatar">
             <div class="user-info">
                 <div class="user-name" id="userName">Username</div>
                 <div class="user-role" id="userRole">User</div>
             </div>
         </div>
-        
-        <!-- Меню профиля -->
-        <div class="profile-menu" id="profileMenu" style="display: none;">
-            <div class="profile-menu-item">
-                <strong>Дата регистрации:</strong>
-                <span id="regDate">01.01.2024</span>
-            </div>
-            <div class="profile-menu-item">
-                <strong>Статус:</strong>
-                <span id="userStatus">Активен</span>
-            </div>
-            <button class="profile-menu-btn" onclick="openSettings()">⚙️ Настройки</button>
-            <button class="profile-menu-btn logout" onclick="logout()">🚪 Выйти</button>
-        </div>
     </div>
 
-    <!-- Кнопка открытия меню -->
-    <button id="menuToggle" class="menu-toggle" style="display: none;">
+    <!-- Выпадающее меню профиля -->
+    <div class="profile-menu" id="profileMenu">
+        <div class="profile-menu-item">
+            <strong>Дата регистрации:</strong>
+            <span id="regDate">01.01.2024</span>
+        </div>
+        <div class="profile-menu-item">
+            <strong>Статус:</strong>
+            <span id="userStatus">Активен</span>
+        </div>
+        <button class="profile-menu-btn" onclick="openSettings()">⚙️ Настройки</button>
+        <button class="profile-menu-btn logout" onclick="logout()">🚪 Выйти</button>
+    </div>
+
+    <!-- Кнопка открытия меню (гамбургер) -->
+    <button id="menuToggle" class="menu-toggle">
         <span></span>
         <span></span>
         <span></span>
     </button>
 
-    <!-- Логотип -->
+    <!-- Логотип (виден всегда) -->
     <div class="logo">SOTORIKO</div>
 
     <!-- Форма авторизации -->
@@ -83,11 +86,11 @@
             <h2 id="authTitle">Авторизация</h2>
             
             <form id="authForm">
-                <input type="text" id="username" placeholder="Никнейм" required>
-                <input type="password" id="password" placeholder="Пароль" required>
+                <input type="text" id="username" placeholder="Никнейм" required autocomplete="username">
+                <input type="password" id="password" placeholder="Пароль" required autocomplete="current-password">
                 
-                <!-- Дополнительное поле для регистрации -->
-                <div id="registerFields" style="display: none;">
+                <!-- Поля для регистрации (скрыты по умолчанию) -->
+                <div id="registerFields">
                     <select id="socialType" required>
                         <option value="">Выберите соц. сеть</option>
                         <option value="discord">Discord</option>
@@ -108,21 +111,33 @@
     </div>
 
     <!-- Главная страница (после авторизации) -->
-    <div id="mainContent" class="main-content" style="display: none;">
+    <div id="mainContent" class="main-content">
         <div class="container">
             <h1>Добро пожаловать, <span id="welcomeUser"></span>!</h1>
             
-            <!-- Список участников -->
+            <!-- Поиск и фильтр -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск участников..." class="search-input">
+                <select id="roleFilter" class="role-filter">
+                    <option value="all">Все роли</option>
+                    <option value="Администратор">Администратор</option>
+                    <option value="Модератор">Модератор</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Пользователь">Пользователь</option>
+                </select>
+            </div>
+            
+            <!-- Сетка участников -->
             <div class="members-grid" id="membersGrid">
-                <!-- Карточки участников будут добавляться через JS -->
+                <!-- Карточки участников добавляются через JS -->
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно для настроек дизайна -->
+    <!-- Модальное окно: Настройки дизайна -->
     <div id="designModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="document.getElementById('designModal').style.display='none'">&times;</span>
             <h2>🎨 Настройка дизайна</h2>
             
             <div class="design-settings">
@@ -164,10 +179,10 @@
         </div>
     </div>
 
-    <!-- Модальное окно админ-панели -->
+    <!-- Модальное окно: Админ-панель -->
     <div id="adminModal" class="modal">
         <div class="modal-content wide">
-            <span class="close">&times;</span>
+            <span class="close" onclick="document.getElementById('adminModal').style.display='none'">&times;</span>
             <h2>👑 Админ-панель</h2>
             
             <div class="admin-panel">
@@ -183,16 +198,17 @@
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
-                        <!-- Пользователи добавляются через JS -->
+                        <!-- Строки добавляются через JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- Подключение скриптов -->
+    <script src="js/notifications.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/profile.js"></script>
-    <script src="js/notifications.js"></script>
 </body>
 </html>
