@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "Администратор",
+      "social": "discord",
+      "socialContact": "admin#0001",
+      "avatar": "https://i.pravatar.cc/150?img=1",
+      "registrationDate": "2024-01-01",
+      "status": "Активен",
+      "isAdmin": true,
+      "bio": "Создатель проекта",
+      "links": [
+        {"type": "discord", "url": "https://discord.com"},
+        {"type": "telegram", "url": "https://t.me/admin"}
+      ]
+    }
+  ],
+  "pendingRequests": []
+}
