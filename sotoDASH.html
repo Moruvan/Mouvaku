@@ -16,7 +16,7 @@
                 <a href="#" class="nav-item" onclick="alert('Вкладка в разработке')">🎨 Шаблоны</a>
             </nav>
             <div class="sidebar-footer">
-                <a href="sotoriko.html" target="_blank" class="btn-preview">Открыть визитку ↗</a>
+                <a href="index.html" target="_blank" class="btn-preview">Открыть визитку ↗</a>
                 <button class="btn-save" onclick="saveAllSettings()">Сохранить всё</button>
             </div>
         </aside>
@@ -54,21 +54,21 @@
                         <input type="text" id="location-text" placeholder="Например: MegaDubinkaCity">
                     </div>
 
-                    <div class="input-group full-width">
-    <label>Позиция карточки на экране</label>
-    <select id="card-position" style="width:100%; padding:10px; background:var(--bg-input); border:1px solid var(--border-color); color:#fff; border-radius:6px;">
-        <option value="center">По центру</option>
-        <option value="flex-start">Слева</option>
-        <option value="flex-end">Справа</option>
-    </select>
+                    <div class="input-group">
+                        <label>Позиция карточки на экране</label>
+                        <select id="card-position" style="width:100%; padding:12px 15px; background:var(--bg-input); border:1px solid var(--border-color); color:#fff; border-radius:8px; outline:none; cursor:pointer;">
+                            <option value="center">По центру</option>
+                            <option value="flex-start">Слева</option>
+                            <option value="flex-end">Справа</option>
+                        </select>
                     </div>
 
-                    <div class="input-group sliders">
-                        <div class="slider-container">
+                    <div class="input-group sliders full-width" style="display: flex; gap: 20px;">
+                        <div class="slider-container" style="flex: 1;">
                             <label>Прозрачность профиля: <span id="opacity-val">50</span>%</label>
                             <input type="range" id="card-opacity" min="0" max="100" value="50">
                         </div>
-                        <div class="slider-container">
+                        <div class="slider-container" style="flex: 1;">
                             <label>Размытие фона: <span id="blur-val">20</span>px</label>
                             <input type="range" id="card-blur" min="0" max="50" value="20">
                         </div>
