@@ -1,5 +1,5 @@
 // --- ЗАЩИТА АДМИНКИ ---
-const secretPass = "1234"; // Придумай свой пароль и впиши сюда
+const secretPass = "152515"; // ПОМЕНЯЙ ЭТОТ ПАРОЛЬ НА СВОЙ!
 const currentLock = sessionStorage.getItem('admin_lock');
 
 if (currentLock !== secretPass) {
@@ -7,15 +7,14 @@ if (currentLock !== secretPass) {
     if (attempt === secretPass) {
         sessionStorage.setItem('admin_lock', secretPass);
     } else {
-        window.location.href = "index.html"; // Если пароль неверный, выкидываем на визитку
+        window.location.href = "index.html"; // Выкидываем на визитку
     }
 }
 // ----------------------
+
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. При загрузке страницы подтягиваем сохраненные настройки (если они есть)
     loadSettings();
 
-    // 2. Обновление текста HEX-кодов при выборе цвета
     document.getElementById('color-accent').addEventListener('input', (e) => {
         document.getElementById('hex-accent').textContent = e.target.value;
     });
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hex-bg').textContent = e.target.value;
     });
 
-    // 3. Динамическое обновление цифр у ползунков
     document.getElementById('card-opacity').addEventListener('input', (e) => {
         document.getElementById('opacity-val').textContent = e.target.value;
     });
@@ -35,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Функция: собрать все данные со страницы и сохранить в память браузера
 function saveAllSettings() {
     const config = {
         bgUrl: document.getElementById('bg-url').value,
@@ -43,6 +40,7 @@ function saveAllSettings() {
         avatarUrl: document.getElementById('avatar-url').value,
         bio: document.getElementById('bio-text').value,
         location: document.getElementById('location-text').value,
+        cardPosition: document.getElementById('card-position').value, // Сохраняем позицию
         opacity: document.getElementById('card-opacity').value,
         blur: document.getElementById('card-blur').value,
         colorAccent: document.getElementById('color-accent').value,
@@ -53,10 +51,8 @@ function saveAllSettings() {
         volumeControl: document.getElementById('toggle-volume').checked
     };
 
-    // Сохраняем в localStorage (локальную базу данных браузера)
     localStorage.setItem('sotoriko_config', JSON.stringify(config));
 
-    // Анимация кнопки для обратной связи
     const btn = document.querySelector('.btn-save');
     const originalText = btn.textContent;
     btn.textContent = 'Сохранено! ✔️';
@@ -64,7 +60,6 @@ function saveAllSettings() {
     btn.style.color = '#000';
     btn.style.boxShadow = 'var(--neon-glow)';
     
-    // Возвращаем кнопку в исходное состояние через 2 секунды
     setTimeout(() => {
         btn.textContent = originalText;
         btn.style.background = 'transparent';
@@ -73,28 +68,26 @@ function saveAllSettings() {
     }, 2000);
 }
 
-// Функция: загрузить данные при входе в админку
 function loadSettings() {
     const saved = localStorage.getItem('sotoriko_config');
-    if (!saved) return; // Если ничего не сохраняли, выходим
+    if (!saved) return;
 
     const config = JSON.parse(saved);
 
-    // Заполняем инпуты
     document.getElementById('bg-url').value = config.bgUrl || '';
     document.getElementById('audio-url').value = config.audioUrl || '';
     document.getElementById('avatar-url').value = config.avatarUrl || '';
     document.getElementById('bio-text').value = config.bio || '';
     document.getElementById('location-text').value = config.location || '';
     
-    // Заполняем ползунки
+    document.getElementById('card-position').value = config.cardPosition || 'center'; // Загружаем позицию
+
     document.getElementById('card-opacity').value = config.opacity || 50;
     document.getElementById('opacity-val').textContent = config.opacity || 50;
     
     document.getElementById('card-blur').value = config.blur || 20;
     document.getElementById('blur-val').textContent = config.blur || 20;
 
-    // Заполняем цвета
     if (config.colorAccent) {
         document.getElementById('color-accent').value = config.colorAccent;
         document.getElementById('hex-accent').textContent = config.colorAccent;
@@ -108,7 +101,6 @@ function loadSettings() {
         document.getElementById('hex-bg').textContent = config.colorBg;
     }
 
-    // Заполняем тумблеры
     document.getElementById('toggle-mono').checked = config.monoIcons || false;
     document.getElementById('toggle-anim').checked = config.animTitle !== false;
     document.getElementById('toggle-volume').checked = config.volumeControl !== false;
