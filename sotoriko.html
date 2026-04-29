@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sotoriko | Bio</title>
+    <link rel="stylesheet" href="css/card.css">
+</head>
+<body>
+    <div id="bg-wrapper"></div>
 
+    <div class="card" id="main-card">
+        
+        <div class="avatar-container">
+            <img id="avatar-img" src="" alt="Avatar" style="display: none;">
+            <div id="avatar-fallback">S</div>
+        </div>
+
+        <h1 id="username" class="username">Sotoriko</h1>
+        
+        <div class="location-box" id="location-box">
+            📍 <span id="location-text">Локация</span>
+        </div>
+
+        <p id="bio" class="bio">Описание профиля...</p>
+
+        <div class="audio-container" id="audio-container" style="display: none;">
+            <audio id="audio-player" controls loop>
+                <source id="audio-source" src="" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div class="links-container" id="links-container">
+            <a href="https://discord.com" target="_blank" class="social-btn">Discord</a>
+            <a href="https://t.me/" target="_blank" class="social-btn">Telegram</a>
+            <a href="https://github.com/Moruvan" target="_blank" class="social-btn">GitHub</a>
+        </div>
+    </div>
+
+    <script src="js/card.js"></script>
+</body>
+</html>
