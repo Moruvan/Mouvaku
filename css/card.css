@@ -1,1 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+/* Дефолтные переменные (будут перезаписаны скриптом) */
+:root {
+    --accent: #00d2ff;
+    --text-color: #ffffff;
+    --card-bg: rgba(10, 25, 47, 0.5);
+    --blur-val: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    margin: 0; padding: 0; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    overflow: hidden;
+    background-color: #02060c; /* Если нет фона */
+}
+
+/* Слой для фоновой картинки */
+#bg-wrapper {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center; z-index: -1;
+    transition: background-image 0.5s ease;
+}
+
+/* Карточка (Стекло) */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--blur-val));
+    -webkit-backdrop-filter: blur(var(--blur-val));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px; width: 90%; max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Аватарка */
+.avatar-container { margin-bottom: 20px; }
+#avatar-img, #avatar-fallback {
+    width: 110px; height: 110px; border-radius: 50%;
+    margin: 0 auto; border: 2px solid var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    object-fit: cover;
+}
+#avatar-fallback {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; font-weight: bold; background: #111; color: var(--accent);
+}
+
+/* Типографика */
+.username { font-size: 2rem; margin-bottom: 10px; letter-spacing: 1px; }
+.username.anim-glow { animation: neonPulse 2s infinite alternate; }
+
+@keyframes neonPulse {
+    from { text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+    to { text-shadow: 0 0 20px var(--accent), 0 0 30px var(--accent); }
+}
+
+.location-box { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 15px; }
+.bio { font-size: 1rem; line-height: 1.5; margin-bottom: 25px; color: var(--text-color); opacity: 0.9; }
+
+/* Плеер */
+.audio-container { margin-bottom: 20px; }
+audio { width: 100%; height: 35px; outline: none; border-radius: 8px; }
+/* Убираем регулятор громкости, если тумблер выключен */
+audio.no-volume::-webkit-media-controls-volume-slider,
+audio.no-volume::-webkit-media-controls-mute-button { display: none; }
+
+/* Кнопки соцсетей */
+.social-btn {
+    display: block; width: 100%; padding: 14px; margin-bottom: 15px;
+    background: rgba(0,0,0,0.3); border: 1px solid var(--accent);
+    color: var(--text-color); text-decoration: none; border-radius: 8px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    transition: 0.3s;
+}
+.social-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); transform: translateY(-2px); }
+
+/* Монохромный режим */
+.social-btn.mono { border-color: rgba(255,255,255,0.2); }
+.social-btn.mono:hover { background: #fff; color: #000; box-shadow: 0 0 15px rgba(255,255,255,0.5); }
