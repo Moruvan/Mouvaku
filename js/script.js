@@ -25,6 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.onclick = () => accountPopup.classList.remove('active');
+
+    const navItems = document.querySelectorAll('.nav-item[data-section], .sub-item[data-section]');
+    navItems.forEach(item => {
+        item.onclick = () => {
+            const sectionId = item.getAttribute('data-section');
+            document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+            const target = document.getElementById(sectionId + '-section');
+            if (target) target.classList.remove('hidden');
+            if (sidebar.classList.contains('active')) menuToggle.onclick();
+        };
+    });
 });
 
 function switchAuth(view) {
@@ -33,6 +44,6 @@ function switchAuth(view) {
 }
 
 function submitRequest() {
-    alert("Заявка отправлена!");
+    alert("Заявка успешно отправлена!");
     switchAuth('login');
 }
