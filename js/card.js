@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Достаем настройки
     const saved = localStorage.getItem('sotoriko_config');
-    if (!saved) return; // Если админку еще не трогали, загрузится дефолт из CSS
+    if (!saved) return;
 
     const config = JSON.parse(saved);
     const rootStyle = document.documentElement.style;
 
-    // 1. Цвета и прозрачность
+    // Цвета и прозрачность
     rootStyle.setProperty('--accent', config.colorAccent || '#00d2ff');
     rootStyle.setProperty('--text-color', config.colorText || '#ffffff');
     rootStyle.setProperty('--blur-val', `${config.blur || 20}px`);
 
-    // Хитрый трюк: переводим HEX цвет фона в RGBA, чтобы работала прозрачность
     const hexToRgba = (hex, alpha) => {
         let r = parseInt(hex.slice(1, 3), 16),
             g = parseInt(hex.slice(3, 5), 16),
@@ -24,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rootStyle.setProperty('--card-bg', hexToRgba(config.colorBg, opacity));
     }
 
-    // 2. Медиа (Фон, Аватар, Аудио)
+    // Медиа
     if (config.bgUrl) {
         document.getElementById('bg-wrapper').style.backgroundImage = `url('${config.bgUrl}')`;
     }
@@ -39,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (config.audioUrl) {
         document.getElementById('audio-container').style.display = 'block';
         document.getElementById('audio-source').src = config.audioUrl;
-        document.getElementById('audio-player').load(); // Перезагружаем плеер с новой ссылкой
+        document.getElementById('audio-player').load();
     }
 
-    // 3. Текст
+    // Текст
     document.getElementById('bio').textContent = config.bio || '';
     
     const locBox = document.getElementById('location-box');
@@ -53,18 +51,26 @@ document.addEventListener('DOMContentLoaded', () => {
         locBox.style.display = 'none';
     }
 
-    // 4. Тумблеры
-    // Анимация заголовка
+    // Позиция карточки
+    if (config.cardPosition) {
+        document.body.style.justifyContent = config.cardPosition;
+        
+        if (config.cardPosition === 'flex-start') {
+            document.getElementById('main-card').style.marginLeft = '5%';
+        } else if (config.cardPosition === 'flex-end') {
+            document.getElementById('main-card').style.marginRight = '5%';
+        }
+    }
+
+    // Тумблеры
     if (config.animTitle) {
         document.getElementById('username').classList.add('anim-glow');
     }
     
-    // Монохромные кнопки
     if (config.monoIcons) {
         document.querySelectorAll('.social-btn').forEach(btn => btn.classList.add('mono'));
     }
 
-    // Управление громкостью
     if (config.volumeControl === false) {
         document.getElementById('audio-player').classList.add('no-volume');
     }
