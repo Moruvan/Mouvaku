@@ -1,3 +1,16 @@
+// --- ЗАЩИТА АДМИНКИ ---
+const secretPass = "1234"; // Придумай свой пароль и впиши сюда
+const currentLock = sessionStorage.getItem('admin_lock');
+
+if (currentLock !== secretPass) {
+    let attempt = prompt("Доступ закрыт. Введите пароль:");
+    if (attempt === secretPass) {
+        sessionStorage.setItem('admin_lock', secretPass);
+    } else {
+        window.location.href = "index.html"; // Если пароль неверный, выкидываем на визитку
+    }
+}
+// ----------------------
 document.addEventListener('DOMContentLoaded', () => {
     // 1. При загрузке страницы подтягиваем сохраненные настройки (если они есть)
     loadSettings();
