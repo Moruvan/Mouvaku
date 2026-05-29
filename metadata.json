@@ -1,0 +1,6 @@
+{
+  "name": "Sotoriko Bio Customizer",
+  "description": "An advanced, highly interactive builder and customizable bio landing page for sotoriko.fun, featuring real-time styling, audio players, password-locked admin access, custom links, and configuration exporting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
